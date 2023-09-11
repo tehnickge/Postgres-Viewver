@@ -6,6 +6,9 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from datetime import timedelta, datetime
 import psycopg2
 from psycopg2 import Error
+import json
+with open('config.json', 'r', encoding='utf-8') as f: #открыли файл с данными
+    text = json.load(f) 
 
 def get_name_db():
     name_db = switchbox1.get()
@@ -19,10 +22,10 @@ def try_to_get_all_table_coontection_in_db():
     name_db = get_name_db()
     column_in_db = []
     try:
-        connection = psycopg2.connect(user="postgres",
-                                  password="123",
-                                  host="127.0.0.1",
-                                  port="5432",
+        connection = psycopg2.connect(user=text['userName'],
+                                  password=text['password'],
+                                  host=text['host'],
+                                  port=text['port'],
                                   database=name_db)
         cursor = connection.cursor()
         #SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';
@@ -63,10 +66,10 @@ def select_to_bd():
     table_name = get_name_table()
     array_res = []
     try:
-        connection = psycopg2.connect(user="postgres",
-                                  password="123",
-                                  host="127.0.0.1",
-                                  port="5432",
+        connection = psycopg2.connect(user=text['userName'],
+                                  password=text['password'],
+                                  host=text['host'],
+                                  port=text['port'],
                                   database=name_db)
         cursor = connection.cursor()
         #SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';
@@ -95,10 +98,10 @@ def require_to_bd(require_str):
     name_table = switchbox2.get()
     array_res = []
     try:
-        connection = psycopg2.connect(user="postgres",
-                                  password="123",
-                                  host="127.0.0.1",
-                                  port="5432",
+        connection = psycopg2.connect(user=text['userName'],
+                                  password=text['password'],
+                                  host=text['host'],
+                                  port=text['port'],
                                   database=name_db)
         cursor = connection.cursor()
         #SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';
@@ -158,7 +161,11 @@ select_request = "введите селект/инсерт запрос в бд 
 
 ##
 switchbox1 = Combobox(frame,textvariable=array_with_data_base_names)
-switchbox1['values'] = ("tehnick","krotkA","san9")
+arr = []
+for txt in text["nameDB"]:
+    arr += txt
+    
+switchbox1['values'] = arr
 switchbox1.pack()
 
 button1 = Button(frame,text="get",command=get).pack()
