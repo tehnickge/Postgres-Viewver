@@ -1,6 +1,5 @@
 # DB-Postgres-Viewver
  
-{
     "userName": "postgres",
     "password": "123",
     "host": "127.0.0.1",
@@ -9,4 +8,3 @@
         {"Dim" : "admin"},
         {"Test": "admin"}
     ]
-}
